@@ -1,6 +1,7 @@
 package com.codeclan.example.WhiskyTracker.controllers;
 
 import com.codeclan.example.WhiskyTracker.models.Distillery;
+import com.codeclan.example.WhiskyTracker.models.Whisky;
 import com.codeclan.example.WhiskyTracker.repositories.DistilleryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,4 +32,18 @@ public class DistilleryController {
     public ResponseEntity getDistillery(@PathVariable Long id){
         return new ResponseEntity<>(distilleryRepository.findById(id), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/distilleries/{id}/whiskies")
+    public ResponseEntity getDistilleriesByWhiskyAge(@RequestParam(name="age") int age){
+        List<Distillery> foundWhiskies = distilleryRepository.findByWhiskiesAge(age);
+        return new ResponseEntity(foundWhiskies, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/distilleries/whiskies")
+    public ResponseEntity getWhiskiesByYear(@RequestParam(name="year") int year){
+        List<Distillery> foundWhiskies = distilleryRepository.findByWhiskiesYearEquals(year);
+        return new ResponseEntity(foundWhiskies, HttpStatus.OK);
+    }
+
+
 }
